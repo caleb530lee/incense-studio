@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
   const portfolioContainer = document.getElementById("portfolio-container");
 
+  initScrollAnimations();
+
   // 1. Fetch JSON and Build Portfolio
   fetch("projects.json")
     .then(response => {
@@ -23,35 +25,32 @@ document.addEventListener("DOMContentLoaded", () => {
         portfolioContainer.appendChild(section);
       });
 
-      // 2. Initialize Scroll Animations AFTER DOM is built
       initScrollAnimations();
     })
     .catch(error => {
       console.error("Error loading portfolio:", error);
     });
 
-  // Scroll Animation Logic using IntersectionObserver
+  let scrollObserver;
+
   function initScrollAnimations() {
-    const observerOptions = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.3 // Triggers when 30% of the section is visible
-    };
-
-    const observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-        } else {
-          // Optional: Remove class if you want animation to repeat when scrolling back up
-          // entry.target.classList.remove('is-visible'); 
-        }
+    if (!scrollObserver) {
+      scrollObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+          }
+        });
+      }, {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.15
       });
-    }, observerOptions);
+    }
 
-    const sections = document.querySelectorAll('.fade-in-section');
-    sections.forEach(section => {
-      observer.observe(section);
+    document.querySelectorAll('.fade-in-section:not([data-observed])').forEach(section => {
+      section.dataset.observed = 'true';
+      scrollObserver.observe(section);
     });
   }
 });
