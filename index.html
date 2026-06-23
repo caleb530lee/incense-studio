@@ -20,10 +20,41 @@
     </div>
   </section>
 
-  <section class="monolith bg-ash text-white fade-in-section">
+  <section class="monolith bg-ash text-white fade-in-section portfolio-hub" id="portfolio">
     <div class="content-wrapper">
-      <h2 class="sans fw-bold fade-up">Design crafted with purpose.</h2>
-      <p class="sans fade-up muted-text">A boutique agency elevating brands through premium graphic design and video editing.<br>專注高品質平面設計與影片剪輯的精品創意工作室。</p>
+      <header class="portfolio-hub-header">
+        <h2 class="sans fw-bold fade-up">Design crafted with purpose.</h2>
+        <p class="sans fade-up muted-text">A boutique agency elevating brands through premium graphic design and video editing.<br>專注高品質平面設計與影片剪輯的精品創意工作室。</p>
+      </header>
+
+      <div class="portfolio-works fade-up">
+        <div class="portfolio-works-heading">
+          <h3 class="sans portfolio-works-title">Portfolio &amp; Past Works</h3>
+          <p class="sans portfolio-works-subtitle">作品集與過往案例</p>
+        </div>
+
+        <div class="portfolio-gallery">
+          <div class="portfolio-gallery-frame">
+            <div class="portfolio-swipe-cue portfolio-swipe-cue--left is-hidden" aria-hidden="true">
+              <span class="swipe-arrow"></span>
+              <span class="swipe-arrow"></span>
+            </div>
+
+            <div id="portfolio-preview" class="portfolio-preview" aria-live="polite">
+              <p class="portfolio-loading sans">Loading projects…</p>
+            </div>
+
+            <div class="portfolio-swipe-cue portfolio-swipe-cue--right" aria-hidden="true">
+              <span class="swipe-arrow"></span>
+              <span class="swipe-arrow"></span>
+            </div>
+          </div>
+
+          <div id="portfolio-dots" class="portfolio-dots" role="tablist" aria-label="Portfolio projects" hidden></div>
+        </div>
+
+        <p class="portfolio-scroll-hint sans">Swipe horizontally to browse, or tap a project to explore</p>
+      </div>
     </div>
   </section>
 
