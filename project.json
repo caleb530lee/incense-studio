@@ -1,0 +1,18 @@
+[
+  {
+    "projectId": "p01",
+    "title": "Brand Identity Reimagined",
+    "type": "Visual Design",
+    "keyVisual": "https://images.unsplash.com/photo-1600132806370-bf17e65e942f?q=80&w=1200&auto=format&fit=crop",
+    "description": "Comprehensive graphic design and digital presence overhaul for a premium lifestyle brand.",
+    "projectLink": "#"
+  },
+  {
+    "projectId": "p02",
+    "title": "Cinematic Campaign Launch",
+    "type": "Video Editing",
+    "keyVisual": "https://images.unsplash.com/photo-1536240478700-b869070f9279?q=80&w=1200&auto=format&fit=crop",
+    "description": "High-impact narrative editing, sound design, and color grading for a global product reveal.",
+    "projectLink": "#"
+  }
+]
