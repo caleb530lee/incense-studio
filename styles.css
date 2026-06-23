@@ -1,58 +1,233 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const portfolioContainer = document.getElementById("portfolio-container");
+/* Core Brand Variables */
+:root {
+  --gold: #C5A059;
+  --gold-light: #D4B574;
+  --ash: #1E1E1E;
+  --ash-soft: #2A2A2A;
+  --smoke: #E8E9EB;
+  --alabaster: #FAFAF8;
+  --alabaster-warm: #F5F3EF;
+  --text-dark: #1A1A1A;
+  --text-muted: #5C5C5C;
+  --text-muted-light: rgba(250, 250, 248, 0.82);
+}
 
-  // 1. Fetch JSON and Build Portfolio
-  fetch("projects.json")
-    .then(response => {
-      if (!response.ok) throw new Error("Failed to load projects.json");
-      return response.json();
-    })
-    .then(projects => {
-      projects.forEach(project => {
-        const section = document.createElement("section");
-        section.className = "monolith portfolio-item fade-in-section";
-        
-        section.innerHTML = `
-          <img src="${project.keyVisual}" alt="${project.title}" class="portfolio-bg">
-          <div class="content-wrapper">
-            <p class="sans fw-bold fade-up" style="font-size: 1rem; color: var(--gold);">${project.type}</p>
-            <h2 class="sans fw-bold fade-up">${project.title}</h2>
-            <p class="sans muted-text fade-up" style="max-width: 500px;">${project.description}</p>
-          </div>
-        `;
-        portfolioContainer.appendChild(section);
-      });
+/* Reset & Base Setup */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-      // Observe the newly added dynamic sections
-      observeNewSections();
-    })
-    .catch(error => {
-      console.error("Error loading portfolio:", error);
-      // Optional: Add a fallback message to the UI here if needed
-    });
+html {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
 
-  // 2. Initialize Scroll Animations independently
-  const observerOptions = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.3 
-  };
+body {
+  background-color: var(--alabaster);
+  color: var(--text-dark);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+}
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-      }
-    });
-  }, observerOptions);
+/* Typography Classes */
+.serif {
+  font-family: 'Playfair Display', 'Noto Serif TC', serif;
+}
 
-  // Observe all static sections immediately on load
-  const staticSections = document.querySelectorAll('.fade-in-section');
-  staticSections.forEach(section => observer.observe(section));
+.sans {
+  font-family: 'Montserrat', 'Noto Sans TC', sans-serif;
+  letter-spacing: -0.01em;
+}
 
-  // Helper function to observe dynamic sections after JSON loads
-  function observeNewSections() {
-    const dynamicSections = portfolioContainer.querySelectorAll('.fade-in-section');
-    dynamicSections.forEach(section => observer.observe(section));
+.fw-heavy {
+  font-weight: 700;
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  line-height: 1.15;
+}
+
+.fw-bold {
+  font-weight: 600;
+  font-size: clamp(1.75rem, 5vw, 3rem);
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.text-center { text-align: center; }
+.text-white { color: var(--alabaster); }
+.text-ash { color: var(--text-dark); }
+
+.muted-text {
+  color: var(--text-muted);
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  line-height: 1.7;
+  max-width: 640px;
+}
+
+.bg-ash .muted-text,
+.text-white .muted-text {
+  color: var(--text-muted-light);
+}
+
+/* Layout Blocks */
+.monolith {
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  scroll-snap-align: start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 4rem 0;
+}
+
+.content-wrapper {
+  width: min(88%, 1200px);
+  z-index: 2;
+}
+
+/* Backgrounds */
+.bg-alabaster {
+  background: linear-gradient(
+    165deg,
+    var(--alabaster) 0%,
+    var(--alabaster-warm) 55%,
+    #EDEAE4 100%
+  );
+}
+
+.bg-ash {
+  background: linear-gradient(
+    160deg,
+    #141414 0%,
+    var(--ash) 45%,
+    var(--ash-soft) 100%
+  );
+}
+
+/* Portfolio Specific */
+.portfolio-item {
+  position: relative;
+  color: var(--alabaster);
+  background-color: var(--ash);
+}
+
+.portfolio-item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.88) 0%,
+    rgba(0, 0, 0, 0.65) 50%,
+    rgba(0, 0, 0, 0.45) 100%
+  );
+  z-index: 1;
+}
+
+.portfolio-item .content-wrapper {
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.65);
+  padding: 2rem;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(2px);
+}
+
+.portfolio-item h2 {
+  font-size: clamp(1.75rem, 4.5vw, 2.75rem);
+  margin-bottom: 0.75rem;
+}
+
+.portfolio-item .muted-text {
+  color: rgba(250, 250, 248, 0.9);
+}
+
+.portfolio-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  transition: transform 1.2s ease-out;
+  filter: saturate(0.92) brightness(0.95);
+}
+
+.is-visible .portfolio-bg {
+  transform: scale(1.04);
+}
+
+/* Animation Classes — keep text readable; animate position only */
+.fade-up {
+  opacity: 1;
+  transform: translateY(28px);
+  transition: transform 0.85s ease-out;
+}
+
+.is-visible .fade-up {
+  transform: translateY(0);
+}
+
+h2.fade-up { transition-delay: 0.1s; }
+p.fade-up { transition-delay: 0.25s; }
+.cta-actions.fade-up { transition-delay: 0.4s; }
+
+/* Buttons */
+.cta-actions {
+  margin-top: 2.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.btn {
+  padding: 0.9rem 1.75rem;
+  font-family: 'Montserrat', 'Noto Sans TC', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.btn-gold {
+  background-color: var(--gold);
+  color: var(--alabaster);
+}
+
+.btn-gold:hover {
+  background-color: var(--gold-light);
+}
+
+.btn-outline {
+  border: 1px solid rgba(250, 250, 248, 0.55);
+  color: var(--alabaster);
+}
+
+.btn-outline:hover {
+  background-color: var(--alabaster);
+  color: var(--text-dark);
+  border-color: var(--alabaster);
+}
+
+@media (max-width: 600px) {
+  .monolith {
+    padding: 3rem 0;
   }
-});
+
+  .cta-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn {
+    text-align: center;
+  }
+}
